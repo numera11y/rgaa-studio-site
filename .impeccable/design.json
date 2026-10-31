@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-31T01:33:40-04:00",
+  "title": "Design System: RGAA Studio Website",
+  "extensions": {
+    "colorMeta": {
+      "action": {
+        "role": "primary",
+        "displayName": "Audit Blue",
+        "canonical": "#214b9a",
+        "tonalRamp": ["#101e3e", "#172d5d", "#1c3b80", "#214b9a", "#4772bb", "#7d9bd0", "#b4c5e4", "#e4eaf5"]
+      },
+      "action-strong": {
+        "role": "primary-strong",
+        "displayName": "Deeper Audit Blue",
+        "canonical": "#193c7e",
+        "tonalRamp": ["#0b1732", "#11254e", "#17336a", "#193c7e", "#3c5e9d", "#7691ba", "#b1c0d7", "#e4eaf2"]
+      },
+      "ink": {
+        "role": "neutral-ink",
+        "displayName": "Studio Ink",
+        "canonical": "#171f3b",
+        "tonalRamp": ["#0b0e19", "#10162a", "#141b33", "#171f3b", "#40465c", "#7a7f90", "#b6b9c2", "#e8e9ed"]
+      },
+      "neutral-bg": {
+        "role": "neutral-background",
+        "displayName": "Mist Surface",
+        "canonical": "#eef2fa",
+        "tonalRamp": ["#202a3f", "#46536c", "#78839a", "#adb6c8", "#d1d8e4", "#e2e7ef", "#e9edf4", "#eef2fa"]
+      },
+      "neutral-paper": {
+        "role": "neutral-surface",
+        "displayName": "Paper Surface",
+        "canonical": "#fffdf7",
+        "tonalRamp": ["#29281f", "#55544a", "#828176", "#b0afa5", "#d2d1c8", "#e7e6de", "#f4f2e9", "#fffdf7"]
+      },
+      "secondary-text": {
+        "role": "secondary-ink",
+        "displayName": "Slate Reading",
+        "canonical": "#45536d",
+        "tonalRamp": ["#171d29", "#29344a", "#37445b", "#45536d", "#6a768c", "#929bad", "#bac0cd", "#e3e5ea"]
+      },
+      "rule": {
+        "role": "divider",
+        "displayName": "Soft Rule",
+        "canonical": "#cfd7e5",
+        "tonalRamp": ["#202a3c", "#48536a", "#778196", "#a5afc1", "#c2cbda", "#cfd7e5", "#e3e7ee", "#f3f4f7"]
+      },
+      "quiet-surface": {
+        "role": "secondary-surface",
+        "displayName": "Quiet Blue Surface",
+        "canonical": "#e8edf7",
+        "tonalRamp": ["#202a40", "#47536d", "#76839c", "#a8b4c9", "#c7d0e0", "#d9e0ed", "#e3e8f2", "#e8edf7"]
+      },
+      "focus": {
+        "role": "focus-indicator",
+        "displayName": "Keyboard Focus Violet",
+        "canonical": "#6c3fd1",
+        "tonalRamp": ["#231043", "#351b68", "#4d2b98", "#6c3fd1", "#8d69df", "#b39be9", "#d5c8f4", "#eee8fb"]
+      },
+      "route-line": {
+        "role": "journey-connector",
+        "displayName": "Route Line Blue",
+        "canonical": "#adc0df",
+        "tonalRamp": ["#17243a", "#33455f", "#586e8e", "#7e96b6", "#adc0df", "#c3d0e3", "#d8e0ed", "#eef2fa"]
+      },
+      "white": {
+        "role": "high-contrast-text",
+        "displayName": "Paper White",
+        "canonical": "#ffffff",
+        "tonalRamp": ["#333333", "#595959", "#808080", "#a6a6a6", "#cccccc", "#e0e0e0", "#f0f0f0", "#ffffff"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Atkinson Hyperlegible Next Display", "purpose": "Homepage proposition and major section statements." },
+      "body": { "displayName": "Atkinson Hyperlegible Next Body", "purpose": "Readable French explanatory copy and action text." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "route-draw", "value": "800ms cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Draw the audit route once when the first view appears; content remains visible without animation." },
+      { "name": "control-state", "value": "160ms ease", "purpose": "Color and small position feedback for links and buttons." },
+      { "name": "reduced-motion", "value": "0.01ms", "purpose": "Reduce all decorative transitions and animation when requested by the operating system." }
+    ],
+    "breakpoints": [
+      { "name": "content-stack", "value": "1100px" },
+      { "name": "compact-navigation", "value": "720px" },
+      { "name": "small-copy", "value": "390px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary app-release link",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The clearest route from the product page to the latest public application release.",
+      "html": "<a class=\"ds-primary\" href=\"https://github.com/numera11y/rgaa-studio/releases/latest\">Découvrir l’application</a>",
+      "css": ".ds-primary { display: inline-flex; align-items: center; justify-content: center; min-height: 3.15rem; gap: .75rem; padding: .8rem 1.15rem; border: 1px solid transparent; border-radius: .45rem; color: #fff; background: #214b9a; font: 720 1rem/1.2 'Atkinson Hyperlegible Next', sans-serif; text-decoration: none; transition: background-color 160ms ease, transform 160ms ease; } .ds-primary:hover { background: #193c7e; transform: translateY(-2px); } .ds-primary:focus-visible { outline: 3px solid #6c3fd1; outline-offset: 4px; }"
+    },
+    {
+      "name": "Quiet journey link",
+      "kind": "button",
+      "refersTo": "button-light",
+      "description": "An in-page secondary action that takes visitors to the interactive audit journey.",
+      "html": "<a class=\"ds-quiet\" href=\"#parcours\">Voir le parcours d’audit</a>",
+      "css": ".ds-quiet { display: inline-flex; align-items: center; justify-content: center; min-height: 3.15rem; padding: .8rem 1.15rem; border-radius: .45rem; color: #171f3b; background: transparent; font: 720 1rem/1.2 'Atkinson Hyperlegible Next', sans-serif; text-decoration: none; } .ds-quiet:hover { background: #e2e8f4; } .ds-quiet:focus-visible { outline: 3px solid #6c3fd1; outline-offset: 4px; }"
+    },
+    {
+      "name": "Audit journey disclosure",
+      "kind": "custom",
+      "description": "Native keyboard-operated details row that expands a real product capture and its explanation.",
+      "html": "<details class=\"ds-journey\"><summary>Observer une page <span>Voir la page dans l’audit</span></summary><p>Le site observé reste relié à son dossier.</p></details>",
+      "css": ".ds-journey { border-bottom: 1px solid #cfd7e5; } .ds-journey summary { display: flex; min-height: 5rem; align-items: center; justify-content: space-between; gap: 1rem; padding: .65rem .4rem; color: #171f3b; font: 710 1.4rem/1.2 'Atkinson Hyperlegible Next', sans-serif; cursor: pointer; list-style: none; } .ds-journey summary::-webkit-details-marker { display: none; } .ds-journey summary:hover, .ds-journey[open] summary { color: #214b9a; } .ds-journey summary:focus-visible { outline: 3px solid #6c3fd1; outline-offset: 4px; } .ds-journey p { color: #45536d; line-height: 1.58; }"
+    },
+    {
+      "name": "Product screenshot frame",
+      "kind": "custom",
+      "description": "A genuine RGAA Studio screenshot with a thin frame and explanatory caption.",
+      "html": "<figure class=\"ds-screenshot\"><img src=\"/media/06-espace-audit-site.webp\" alt=\"RGAA Studio affichant le site observé et le panneau d’audit.\"><figcaption>Capture de l’application sur le site public numera11y.fr.</figcaption></figure>",
+      "css": ".ds-screenshot { margin: 0; overflow: hidden; border: 1px solid #cfd7e5; border-radius: .65rem; background: #fffdf7; } .ds-screenshot img { display: block; width: 100%; height: auto; } .ds-screenshot figcaption { padding: .72rem 1rem; color: #45536d; background: #f7f7f3; font: 400 .77rem/1.5 'Atkinson Hyperlegible Next', sans-serif; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Le fil de l’audit",
+    "overview": "The site makes the connection between an observed page, review aids, the auditor’s decision, and recorded evidence visible as a route. It keeps the product itself in view: supplied application screenshots are evidence of the interface, while the route line shows how its parts relate. The language is direct and French-first, for auditors and organizations evaluating the tool. The visual system extends RGAA Studio’s actual desktop palette and icon, with a legible self-hosted typeface and open, low-density page sections. The publisher remains a factual footer attribution; the product icon and name carry the main identity.",
+    "keyCharacteristics": [
+      "Route structure instead of a row of equal feature cards.",
+      "Blue signals actions and navigable audit stages.",
+      "Genuine application screenshots, captioned and described.",
+      "Automated analyses are presented as review aids, never as conformity results."
+    ],
+    "rules": [
+      { "name": "The Route-Blue Rule", "body": "Audit Blue marks navigation and action; it never communicates a conformity result by itself.", "section": "colors" }
+    ],
+    "dos": [
+      "Do keep the route between page, review aids, human judgment, and evidence explicit.",
+      "Do keep release discovery direct and label each external destination.",
+      "Do describe automated signals as suggestions and actual decisions as the auditor’s responsibility.",
+      "Do use supplied product screenshots with their provenance and meaningful alternatives."
+    ],
+    "donts": [
+      "Don't imply that the tool issues a compliance verdict or that its automated coverage is complete.",
+      "Don't imply audit-dossier synchronization or collaborative account features.",
+      "Don't add testimonial, client, benchmark, pricing, or outcome claims without verified source material.",
+      "Don't hide essential content behind motion or replace the product interface with a generic device mockup."
+    ]
+  }
+}

@@ -1,0 +1,65 @@
+---
+import { ArrowUpRight, Menu } from '@lucide/astro';
+
+const base = import.meta.env.BASE_URL;
+const basePath = base.endsWith('/') ? base : `${base}/`;
+const releaseUrl = 'https://github.com/numera11y/rgaa-studio/releases/latest';
+---
+
+<header class="site-header">
+  <div class="header-inner page-width">
+    <a class="brand-lockup" href={basePath} aria-label="RGAA Studio — accueil">
+      <img src={`${basePath}media/rgaa-studio-icon.svg`} alt="" width="38" height="38" />
+      <span>RGAA Studio</span>
+    </a>
+
+    <nav class="desktop-nav" aria-label="Navigation principale">
+      <a href={`${basePath}#parcours`}>Le parcours</a>
+      <a href={`${basePath}#fonctionnalites`}>L’espace d’audit</a>
+      <a href={`${basePath}#publics`}>Pour qui&nbsp;?</a>
+    </nav>
+
+    <div class="header-actions">
+      <a class="header-release" href="https://github.com/numera11y/rgaa-studio" target="_blank" rel="noreferrer">
+        Le projet GitHub <ArrowUpRight size={16} stroke-width={1.8} aria-hidden="true" />
+      </a>
+      <a class="button button-small button-primary" href={releaseUrl} target="_blank" rel="noreferrer">
+        Découvrir l’application <ArrowUpRight size={16} stroke-width={1.8} aria-hidden="true" />
+      </a>
+    </div>
+
+    <details class="mobile-menu">
+      <summary>
+        <Menu size={22} stroke-width={1.8} aria-hidden="true" />
+        <span>Menu</span>
+      </summary>
+      <nav aria-label="Navigation mobile">
+        <a href={`${basePath}#parcours`}>Le parcours</a>
+        <a href={`${basePath}#fonctionnalites`}>L’espace d’audit</a>
+        <a href={`${basePath}#publics`}>Pour qui&nbsp;?</a>
+        <a href="https://github.com/numera11y/rgaa-studio" target="_blank" rel="noreferrer">Le projet GitHub</a>
+        <a class="mobile-primary" href={releaseUrl} target="_blank" rel="noreferrer">Découvrir l’application</a>
+      </nav>
+    </details>
+  </div>
+</header>
+
+<script>
+  const mobileMenu = document.querySelector<HTMLDetailsElement>('.mobile-menu');
+  const mobileSummary = mobileMenu?.querySelector('summary');
+
+  mobileMenu?.addEventListener('click', (event) => {
+    if ((event.target as HTMLElement).closest('a')) mobileMenu.open = false;
+  });
+
+  document.addEventListener('pointerdown', (event) => {
+    if (mobileMenu?.open && !mobileMenu.contains(event.target as Node)) mobileMenu.open = false;
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && mobileMenu?.open) {
+      mobileMenu.open = false;
+      mobileSummary?.focus();
+    }
+  });
+</script>

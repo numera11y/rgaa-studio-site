@@ -1,0 +1,31 @@
+---
+import { ArrowUpRight } from '@lucide/astro';
+
+const base = import.meta.env.BASE_URL;
+const basePath = base.endsWith('/') ? base : `${base}/`;
+---
+
+<footer class="site-footer">
+  <div class="footer-inner page-width">
+    <div class="footer-brand">
+      <a class="brand-lockup" href={basePath} aria-label="RGAA Studio — retour à l’accueil">
+        <img src={`${basePath}media/rgaa-studio-icon.svg`} alt="" width="34" height="34" />
+        <span>RGAA Studio</span>
+      </a>
+      <p>Un espace de travail pour garder l’audit et ses preuves au même endroit.</p>
+    </div>
+    <nav class="footer-links" aria-label="Liens de pied de page">
+      <a href="https://github.com/numera11y/rgaa-studio/releases/latest" target="_blank" rel="noreferrer">Découvrir l’application</a>
+      <a href="https://github.com/numera11y/rgaa-studio" target="_blank" rel="noreferrer">
+        Le projet sur GitHub <ArrowUpRight size={15} stroke-width={1.8} aria-hidden="true" />
+      </a>
+      <a href="https://github.com/numera11y/rgaa-studio/releases/latest" target="_blank" rel="noreferrer">
+        Releases <ArrowUpRight size={15} stroke-width={1.8} aria-hidden="true" />
+      </a>
+    </nav>
+    <div class="footer-meta">
+      <span>Édité par numera11y</span>
+      <span>La décision de conformité appartient toujours à l’auditeur.</span>
+    </div>
+  </div>
+</footer>

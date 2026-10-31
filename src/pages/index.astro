@@ -1,0 +1,228 @@
+---
+import {
+  ArrowDownRight,
+  ArrowRight,
+  ArrowUpRight,
+  BookOpenCheck,
+  Check,
+  Download,
+  LaptopMinimal,
+  ListChecks,
+  MapPinned,
+  MousePointer2,
+  ScanSearch,
+  ShieldCheck,
+} from '@lucide/astro';
+import AuditJourney from '../components/AuditJourney.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
+
+const base = import.meta.env.BASE_URL;
+const basePath = base.endsWith('/') ? base : `${base}/`;
+const githubRepo = 'https://github.com/numera11y/rgaa-studio';
+const releaseUrl = `${githubRepo}/releases/latest`;
+---
+
+<SiteLayout>
+  <section class="hero-section page-width" aria-labelledby="hero-title">
+    <div class="hero-intro">
+      <h1 id="hero-title">L’audit se construit,<br /><span>page après page.</span></h1>
+      <p class="hero-description">
+        RGAA Studio réunit le site observé, ses pages et les repères de revue dans un même dossier.
+        Les pistes automatiques aident l’auditeur&nbsp;: elles ne décident pas à sa place.
+      </p>
+      <div class="hero-actions">
+        <a class="button button-primary" href={releaseUrl} target="_blank" rel="noreferrer">
+          Découvrir l’application <ArrowRight size={18} stroke-width={1.8} aria-hidden="true" />
+        </a>
+        <a class="button button-quiet" href={`${basePath}#parcours`}>
+          Voir le parcours d’audit <ArrowDownRight size={17} stroke-width={1.8} aria-hidden="true" />
+        </a>
+      </div>
+      <ul class="hero-facts" aria-label="Référentiels pris en charge">
+        <li><Check size={15} stroke-width={2} aria-hidden="true" /> RGAA</li>
+        <li><Check size={15} stroke-width={2} aria-hidden="true" /> WCAG</li>
+        <li><LaptopMinimal size={16} stroke-width={1.8} aria-hidden="true" /> Application de bureau</li>
+      </ul>
+    </div>
+
+    <figure class="hero-proof">
+      <img
+        src={`${basePath}media/06-espace-audit-site.webp`}
+        alt="RGAA Studio affichant le site numera11y dans son espace d’audit, avec la liste du dossier et le panneau Inspection."
+        width="1600"
+        height="860"
+        fetchpriority="high"
+      />
+      <figcaption>
+        <span>Une page réelle, dans le contexte de son dossier.</span>
+        <span>Capture de l’application · 30 octobre 2026</span>
+      </figcaption>
+    </figure>
+
+    <div class="hero-route-wrap">
+      <p class="route-label">Un dossier relie</p>
+      <ol class="hero-route" aria-label="Du site observé aux éléments consignés">
+        <li><a href={`${basePath}#etape-page`}><span>01</span><MapPinned size={18} stroke-width={1.8} aria-hidden="true" /> Le site</a></li>
+        <li><a href={`${basePath}#etape-structure`}><span>02</span><BookOpenCheck size={18} stroke-width={1.8} aria-hidden="true" /> Les repères</a></li>
+        <li><a href={`${basePath}#etape-suggestions`}><span>03</span><ScanSearch size={18} stroke-width={1.8} aria-hidden="true" /> Les pistes</a></li>
+        <li><a href={`${basePath}#etape-decision`}><span>04</span><ShieldCheck size={18} stroke-width={1.8} aria-hidden="true" /> La décision</a></li>
+        <li><a href={`${basePath}#etape-synthese`}><span>05</span><ListChecks size={18} stroke-width={1.8} aria-hidden="true" /> Les preuves</a></li>
+      </ol>
+    </div>
+
+    <a class="scroll-cue" href={`${basePath}#parcours`} aria-label="Voir le parcours dans RGAA Studio">
+      <span>Parcourir le fil</span>
+      <ArrowDownRight size={18} stroke-width={1.8} aria-hidden="true" />
+    </a>
+  </section>
+
+  <AuditJourney />
+
+  <section class="feature-section section-space" id="fonctionnalites" aria-labelledby="feature-title">
+    <div class="page-width">
+      <div class="section-heading feature-heading">
+        <h2 id="feature-title">Plusieurs lectures.<br /><span>Une seule page.</span></h2>
+        <p>Changer de vue aide à examiner le contenu. Le contexte du site et du dossier reste visible.</p>
+      </div>
+
+      <div class="feature-proof feature-proof-first">
+        <figure class="feature-image feature-image-wide">
+          <img
+            src={`${basePath}media/14-technologies-seo.webp`}
+            alt="Résumé des technologies détectées et indicateurs SEO de la page numera11y."
+            width="1600"
+            height="860"
+            loading="lazy"
+          />
+          <figcaption>Résumé technique et SEO · page d’accueil numera11y</figcaption>
+        </figure>
+        <div class="feature-copy">
+          <span class="feature-icon"><ScanSearch size={22} stroke-width={1.7} aria-hidden="true" /></span>
+          <h3>Des indices à vérifier, pas des verdicts.</h3>
+          <p>Explorez la structure HTML5, les rôles ARIA, les éléments média, le DOM et les suggestions axe-core. Les résultats automatiques restent des pistes d’examen.</p>
+          <a class="text-link" href={`${basePath}#etape-suggestions`}>Voir les suggestions dans l’application <ArrowRight size={16} aria-hidden="true" /></a>
+        </div>
+      </div>
+
+      <div class="feature-proof feature-proof-reverse">
+        <div class="feature-copy">
+          <span class="feature-icon"><MousePointer2 size={22} stroke-width={1.7} aria-hidden="true" /></span>
+          <h3>Mesurer, puis interpréter.</h3>
+          <p>La pipette relève les couleurs d’une zone pointée et compare le ratio aux repères concernés. Le jugement final demeure celui de l’auditeur.</p>
+          <a class="text-link" href={`${basePath}#etape-decision`}>Voir la mesure de contraste <ArrowRight size={16} aria-hidden="true" /></a>
+        </div>
+        <figure class="feature-image feature-image-contrast">
+          <img
+            src={`${basePath}media/22-pipette-contraste.webp`}
+            alt="Pipette de contraste affichant la couleur du texte, le fond calculé et les seuils de référence dans le panneau Inspection."
+            width="1600"
+            height="860"
+            loading="lazy"
+          />
+          <figcaption>Contraste mesuré sur la page · repère d’aide à la revue</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="principles-section section-space" aria-labelledby="principles-title">
+    <div class="page-width principles-layout">
+      <div class="principles-heading">
+        <h2 id="principles-title">L’auditeur garde<br />la main.</h2>
+        <p>RGAA Studio accompagne la revue humaine et conserve le fil de l’examen.</p>
+      </div>
+      <div class="principles-list">
+        <article>
+          <span class="principle-mark" aria-hidden="true">A</span>
+          <div>
+            <h3>Un référentiel par dossier</h3>
+            <p>RGAA ou WCAG ; un niveau cible A, AA ou AAA est défini pour un audit WCAG.</p>
+          </div>
+        </article>
+        <article>
+          <span class="principle-mark" aria-hidden="true">B</span>
+          <div>
+            <h3>Des pistes clairement séparées</h3>
+            <p>Une suggestion automatique ne devient pas une décision de conformité par défaut.</p>
+          </div>
+        </article>
+        <article>
+          <span class="principle-mark" aria-hidden="true">C</span>
+          <div>
+            <h3>Des dossiers conservés localement</h3>
+            <p>Pages, décisions et preuves restent sur l’appareil de l’auditeur, dans le dossier local.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="audiences-section section-space" id="publics" aria-labelledby="audiences-title">
+    <div class="page-width">
+      <div class="section-heading audiences-heading">
+        <h2 id="audiences-title">Pensé pour celles et ceux<br />qui font avancer l’audit.</h2>
+        <p>Un même fil de travail, que l’on mène une revue ou que l’on organise le périmètre à examiner.</p>
+      </div>
+      <div class="audience-rows">
+        <article class="audience-row">
+          <p class="audience-kind">Auditeurs et agences</p>
+          <h3>Examiner une page<br />sans perdre son contexte.</h3>
+          <p>Parcourir les pages du dossier, utiliser plusieurs vues d’analyse et consigner les décisions de revue.</p>
+          <a href={`${basePath}#parcours`} aria-label="Découvrir le parcours de revue pour les auditeurs">Suivre le parcours <ArrowRight size={17} aria-hidden="true" /></a>
+        </article>
+        <article class="audience-row">
+          <p class="audience-kind">Équipes qui préparent un audit</p>
+          <h3>Clarifier le périmètre<br />et les repères.</h3>
+          <p>Définir les pages à examiner et garder constats et preuves dans le dossier local de l’auditeur.</p>
+          <a href={`${basePath}#fonctionnalites`} aria-label="Découvrir les repères et l’espace de travail">Explorer l’espace de travail <ArrowRight size={17} aria-hidden="true" /></a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="release-section section-space" id="application" aria-labelledby="release-title">
+    <div class="page-width release-layout">
+      <div class="release-copy">
+        <h2 id="release-title">Ouvrir le dossier.<br /><span>Commencer la revue.</span></h2>
+        <p>Découvrez RGAA Studio et choisissez une version publiée pour votre environnement.</p>
+        <div class="release-actions">
+          <a class="button button-light" href={releaseUrl} target="_blank" rel="noreferrer">
+            Voir les versions publiées <Download size={17} stroke-width={1.8} aria-hidden="true" />
+          </a>
+          <a class="release-repo-link" href={githubRepo} target="_blank" rel="noreferrer">
+            Explorer le dépôt <ArrowUpRight size={16} stroke-width={1.8} aria-hidden="true" />
+          </a>
+        </div>
+      </div>
+      <div class="release-notes">
+        <p><Check size={17} aria-hidden="true" /> Windows et Linux</p>
+        <p><Check size={17} aria-hidden="true" /> Référentiels RGAA et WCAG</p>
+        <p><Check size={17} aria-hidden="true" /> Dossiers d’audit locaux</p>
+        <small>Consultez les notes de version pour connaître l’état et le contenu de chaque publication.</small>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq-section section-space" aria-labelledby="faq-title">
+    <div class="page-width faq-layout">
+      <div>
+        <h2 id="faq-title">À savoir avant de commencer.</h2>
+        <p>Des repères simples sur le rôle de l’application et de ses analyses.</p>
+      </div>
+      <div class="faq-list">
+        <details>
+          <summary>RGAA Studio décide-t-il si une page est conforme ?</summary>
+          <p>Non. Les analyses automatiques proposent des pistes à examiner ; la décision de conformité appartient à l’auditeur.</p>
+        </details>
+        <details>
+          <summary>Où sont conservés les dossiers d’audit ?</summary>
+            <p>Les dossiers, les décisions et les preuves sont conservés localement sur l’appareil de l’auditeur ; ils ne sont pas synchronisés entre comptes.</p>
+        </details>
+        <details>
+          <summary>Peut-on utiliser RGAA ou WCAG ?</summary>
+          <p>Oui. Un dossier utilise un seul référentiel. Pour WCAG, un niveau cible A, AA ou AAA est choisi.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+</SiteLayout>
