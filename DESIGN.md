@@ -11,7 +11,6 @@ colors:
   rule: "#cfd7e5"
   quiet-surface: "#e8edf7"
   focus: "#6c3fd1"
-  route-line: "#adc0df"
   white: "#ffffff"
 typography:
   brand:
@@ -79,12 +78,12 @@ components:
 
 **Creative North Star: “Le fil de l’audit.”**
 
-The site makes the connection between an observed page, review aids, the auditor’s decision, and recorded evidence visible as a route. It keeps the product itself in view: supplied application screenshots are evidence of the interface, while the route line shows how its parts relate. The language is direct and French-first, for auditors and organizations evaluating the tool.
+The site makes the connection between an observed page, review aids, the auditor’s decision, and recorded evidence visible as an interactive sequence. It keeps the product itself in view: supplied application screenshots are evidence of the interface, while the sticky capture follows the explanation as the visitor scrolls. The language is direct and French-first, for auditors and organizations evaluating the tool.
 
 The visual system extends RGAA Studio’s actual desktop palette and icon, with a legible self-hosted typeface and open, low-density page sections. The publisher remains a factual footer attribution; the product icon and name carry the main identity.
 
 **Key Characteristics:**
-- Route structure instead of a row of equal feature cards.
+- A clear stage index and a scroll-synchronized evidence view instead of a row of equal feature cards.
 - Blue signals actions and navigable audit stages.
 - Genuine application screenshots, captioned and described.
 - Automated analyses are presented as review aids, never as conformity results.
@@ -139,7 +138,7 @@ The site is flat at rest. Separation comes from full-width tonal fields, thin ru
 
 ## Shapes
 
-Buttons use restrained rounded corners (`0.45rem`), image frames use a slightly broader radius (`0.65rem`), and larger panels use `0.75rem`. Journey markers are circular, while page sections remain square-edged and separated by lines. The screenshot frame never imitates a device shell.
+Buttons use restrained rounded corners (`0.45rem`), image frames use a slightly broader radius (`0.65rem`), and larger panels use `0.75rem`. Journey navigation uses a small tabular step number and a clear text label, with no connector crossing the text. Page sections remain square-edged and separated by whitespace and rules. The screenshot frame never imitates a device shell.
 
 ## Components
 
@@ -170,7 +169,7 @@ Buttons use restrained rounded corners (`0.45rem`), image frames use a slightly 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** keep the route between page, review aids, human judgment, and evidence explicit.
+- **Do** keep the sequence between page, review aids, human judgment, and evidence explicit.
 - **Do** keep release discovery direct and label each external destination.
 - **Do** describe automated signals as suggestions and actual decisions as the auditor’s responsibility.
 - **Do** use supplied product screenshots with their provenance and meaningful alternatives.

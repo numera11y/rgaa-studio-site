@@ -58,12 +58,6 @@
         "canonical": "#6c3fd1",
         "tonalRamp": ["#231043", "#351b68", "#4d2b98", "#6c3fd1", "#8d69df", "#b39be9", "#d5c8f4", "#eee8fb"]
       },
-      "route-line": {
-        "role": "journey-connector",
-        "displayName": "Route Line Blue",
-        "canonical": "#adc0df",
-        "tonalRamp": ["#17243a", "#33455f", "#586e8e", "#7e96b6", "#adc0df", "#c3d0e3", "#d8e0ed", "#eef2fa"]
-      },
       "white": {
         "role": "high-contrast-text",
         "displayName": "Paper White",
@@ -78,7 +72,6 @@
     },
     "shadows": [],
     "motion": [
-      { "name": "route-draw", "value": "800ms cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Draw the audit route once when the first view appears; content remains visible without animation." },
       { "name": "scroll-story", "value": "IntersectionObserver central band; 420ms cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Synchronize the sticky screenshot and active explanation with the visible audit stage." },
       { "name": "image-arrive", "value": "420ms cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Crossfade and settle the screenshot when the active narrative stage changes." },
       { "name": "control-state", "value": "160ms ease", "purpose": "Color and small position feedback for links and buttons." },
@@ -124,9 +117,9 @@
   ],
   "narrative": {
     "northStar": "Le fil de l’audit",
-    "overview": "The site makes the connection between an observed page, review aids, the auditor’s decision, and recorded evidence visible as a route. It keeps the product itself in view: supplied application screenshots are evidence of the interface, while the route line shows how its parts relate. The language is direct and French-first, for auditors and organizations evaluating the tool. The visual system extends RGAA Studio’s actual desktop palette and icon, with a legible self-hosted typeface and open, low-density page sections. The publisher remains a factual footer attribution; the product icon and name carry the main identity.",
+    "overview": "The site makes the connection between an observed page, review aids, the auditor’s decision, and recorded evidence visible as an interactive sequence. It keeps the product itself in view: supplied application screenshots are evidence of the interface, while the sticky capture follows the explanation as the visitor scrolls. The language is direct and French-first, for auditors and organizations evaluating the tool. The visual system extends RGAA Studio’s actual desktop palette and icon, with a legible self-hosted typeface and open, low-density page sections. The publisher remains a factual footer attribution; the product icon and name carry the main identity.",
     "keyCharacteristics": [
-      "Route structure instead of a row of equal feature cards.",
+      "A stage index and scroll-synchronized evidence view instead of a row of equal feature cards.",
       "Blue signals actions and navigable audit stages.",
       "Genuine application screenshots, captioned and described.",
       "Automated analyses are presented as review aids, never as conformity results."
@@ -135,7 +128,7 @@
       { "name": "The Route-Blue Rule", "body": "Audit Blue marks navigation and action; it never communicates a conformity result by itself.", "section": "colors" }
     ],
     "dos": [
-      "Do keep the route between page, review aids, human judgment, and evidence explicit.",
+      "Do keep the sequence between page, review aids, human judgment, and evidence explicit.",
       "Do keep release discovery direct and label each external destination.",
       "Do describe automated signals as suggestions and actual decisions as the auditor’s responsibility.",
       "Do use supplied product screenshots with their provenance and meaningful alternatives."

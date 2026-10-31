@@ -32,7 +32,7 @@ La page raconte un audit comme un fil traçable, de la page observée aux preuve
 
 ### OWN-WORLD
 
-RGAA Studio reste reconnaissable par son icône « R », son encre bleu nuit, son bleu d’action et ses surfaces claires bleu-lavande et crème. Une ligne de parcours construite en SVG relie les étapes ; les captures réelles du produit font preuve, pas décoration. Numera11y reste une attribution discrète.
+RGAA Studio reste reconnaissable par son icône « R », son encre bleu nuit, son bleu d’action et ses surfaces claires bleu-lavande et crème. Une navigation d’étapes aérée accompagne une capture sticky qui se synchronise au scroll ; les captures réelles du produit font preuve, pas décoration. Numera11y reste une attribution discrète.
 
 ### STORY
 

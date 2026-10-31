@@ -1,17 +1,12 @@
 ---
 import {
-  ArrowDownRight,
   ArrowRight,
   ArrowUpRight,
-  BookOpenCheck,
   Check,
   Download,
   LaptopMinimal,
-  ListChecks,
-  MapPinned,
   MousePointer2,
   ScanSearch,
-  ShieldCheck,
 } from '@lucide/astro';
 import AuditJourney from '../components/AuditJourney.astro';
 import SiteLayout from '../layouts/SiteLayout.astro';
@@ -35,7 +30,7 @@ const releaseUrl = `${githubRepo}/releases/latest`;
           Découvrir l’application <ArrowRight size={18} stroke-width={1.8} aria-hidden="true" />
         </a>
         <a class="button button-quiet" href={`${basePath}#parcours`}>
-          Voir le parcours d’audit <ArrowDownRight size={17} stroke-width={1.8} aria-hidden="true" />
+          Voir le parcours d’audit <ArrowRight size={17} stroke-width={1.8} aria-hidden="true" />
         </a>
       </div>
       <ul class="hero-facts" aria-label="Référentiels pris en charge">
@@ -59,21 +54,6 @@ const releaseUrl = `${githubRepo}/releases/latest`;
       </figcaption>
     </figure>
 
-    <div class="hero-route-wrap">
-      <p class="route-label">Un dossier relie</p>
-      <ol class="hero-route" aria-label="Du site observé aux éléments consignés">
-        <li><a href={`${basePath}#etape-page`}><span>01</span><MapPinned size={18} stroke-width={1.8} aria-hidden="true" /> Le site</a></li>
-        <li><a href={`${basePath}#etape-structure`}><span>02</span><BookOpenCheck size={18} stroke-width={1.8} aria-hidden="true" /> Les repères</a></li>
-        <li><a href={`${basePath}#etape-suggestions`}><span>03</span><ScanSearch size={18} stroke-width={1.8} aria-hidden="true" /> Les pistes</a></li>
-        <li><a href={`${basePath}#etape-decision`}><span>04</span><ShieldCheck size={18} stroke-width={1.8} aria-hidden="true" /> La décision</a></li>
-        <li><a href={`${basePath}#etape-synthese`}><span>05</span><ListChecks size={18} stroke-width={1.8} aria-hidden="true" /> Les preuves</a></li>
-      </ol>
-    </div>
-
-    <a class="scroll-cue" href={`${basePath}#parcours`} aria-label="Voir le parcours dans RGAA Studio">
-      <span>Parcourir le fil</span>
-      <ArrowDownRight size={18} stroke-width={1.8} aria-hidden="true" />
-    </a>
   </section>
 
   <AuditJourney />

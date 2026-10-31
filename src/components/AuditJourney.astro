@@ -1,5 +1,5 @@
 ---
-import { ArrowRight, BookOpen, CircleCheck, Contrast, FileSearch, Globe, ScanSearch } from '@lucide/astro';
+import { ArrowRight } from '@lucide/astro';
 
 const base = import.meta.env.BASE_URL;
 const basePath = base.endsWith('/') ? base : `${base}/`;
@@ -11,7 +11,6 @@ const steps = [
     description: 'Le site reste visible pendant que l’auditeur parcourt les pages retenues dans son dossier.',
     image: '06-espace-audit-site.webp',
     alt: 'Accueil de numera11y affiché dans le navigateur intégré de RGAA Studio, avec la liste des pages et le panneau Inspection.',
-    icon: Globe,
     action: 'Voir la page dans l’audit',
   },
   {
@@ -20,7 +19,6 @@ const steps = [
     description: 'Consulter le DOM, la structure HTML5, les rôles ARIA ou le résumé technique de la page.',
     image: '11-html5-semantique.webp',
     alt: 'Page numera11y à côté de l’exploration de sa structure HTML5 dans RGAA Studio.',
-    icon: BookOpen,
     action: 'Explorer la structure',
   },
   {
@@ -29,7 +27,6 @@ const steps = [
     description: 'Les résultats automatisés aident à repérer des pistes ; ils ne sont ni exhaustifs ni un verdict.',
     image: '15-resultats-axe-core.webp',
     alt: 'Suggestions axe-core de la page numera11y, chacune proposée à l’examen de l’auditeur.',
-    icon: ScanSearch,
     action: 'Voir les pistes automatiques',
   },
   {
@@ -38,7 +35,6 @@ const steps = [
     description: 'La pipette relève des couleurs ; l’auditeur interprète la mesure et consigne lui-même son résultat dans le dossier.',
     image: '22-pipette-contraste.webp',
     alt: 'Mesure de contraste dans le panneau Inspection ; la note précise qu’il s’agit d’un indice, pas d’une décision de conformité.',
-    icon: Contrast,
     action: 'Mesurer un contraste',
   },
   {
@@ -47,7 +43,6 @@ const steps = [
     description: 'La vue d’ensemble distingue la progression des pages, les suggestions à examiner, les décisions humaines et les preuves enregistrées.',
     image: '07-tableau-de-bord.webp',
     alt: 'Vue d’ensemble d’un dossier RGAA Studio avec son avancement et ses indicateurs.',
-    icon: CircleCheck,
     action: 'Voir la synthèse du dossier',
   },
 ];
@@ -60,17 +55,16 @@ const steps = [
         <h2 id="journey-title">Un fil pour garder le cap.</h2>
         <p>Du site observé aux éléments consignés, l’audit se construit page après page.</p>
       </div>
-      <p class="heading-note"><FileSearch size={18} stroke-width={1.8} aria-hidden="true" /> Un dossier, un site, un référentiel.</p>
+      <p class="heading-note">Un dossier, un site, un référentiel.</p>
     </div>
 
     <ol class="journey-route" aria-label="Parcours dans RGAA Studio">
       {steps.map((step, index) => {
-        const Icon = step.icon;
         return (
           <li class:list={{ 'route-stop': true, 'route-stop-first': index === 0 }}>
             <a href={`#etape-${step.id}`}>
-              <span class="route-node"><Icon size={19} stroke-width={1.8} aria-hidden="true" /></span>
-              <span>{step.title}</span>
+              <span class="route-step-number">{String(index + 1).padStart(2, '0')}</span>
+              <span class="route-step-title">{step.title}</span>
             </a>
           </li>
         );
