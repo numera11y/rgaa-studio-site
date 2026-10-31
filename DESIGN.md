@@ -5,12 +5,15 @@ colors:
   action: "#214b9a"
   action-strong: "#193c7e"
   ink: "#171f3b"
-  neutral-bg: "#eef2fa"
+  teal: "#087970"
+  teal-bright: "#33b5ab"
+  neutral-bg: "#f4f2e9"
   neutral-paper: "#fffdf7"
-  secondary-text: "#45536d"
-  rule: "#cfd7e5"
-  quiet-surface: "#e8edf7"
-  focus: "#6c3fd1"
+  brand-cream: "#faf7eb"
+  secondary-text: "#555e70"
+  rule: "#d8dad9"
+  quiet-surface: "#e7f2ef"
+  focus: "#087970"
   white: "#ffffff"
 typography:
   brand:
@@ -90,20 +93,23 @@ The visual system extends RGAA Studio’s actual desktop palette and icon, with 
 
 ## Colors
 
-Deep navy anchors the product; a clear working blue marks actions and journey nodes, while pale blue and warm paper separate reading surfaces without adding visual noise.
+Deep navy anchors the product; a clear working blue marks actions, and the teal signature dot brings a restrained secondary accent. Warm cream, off-white paper, and neutral rules carry the reading surfaces.
 
 ### Primary
-- **Audit Blue** ({colors.primary}): Main calls to action, selected route nodes, and links that move the visitor into the product journey.
-- **Deeper Audit Blue** ({colors.primary-strong}): Pressed or hover state on the primary action.
+- **Audit Blue** ({colors.action}): Main calls to action, selected route nodes, and links that move the visitor into the product journey.
+- **Deeper Audit Blue** ({colors.action-strong}): Pressed or hover state on the primary action.
+- **Studio Teal** ({colors.teal}): Secondary identity accent and keyboard focus; it never represents an audit result.
+- **Signature Teal** ({colors.teal-bright}): Small logo details and journey annotations.
 
 ### Neutral
 - **Studio Ink** ({colors.ink}): Main headings and navigation text.
-- **Mist Surface** ({colors.neutral-bg}): Global page ground and quiet regions around product captures.
+- **Canvas Cream** ({colors.neutral-bg}): Global page ground and quiet regions around product captures.
 - **Paper Surface** ({colors.neutral-paper}): Long-form content and open disclosures.
+- **Brand Cream** ({colors.brand-cream}): Alternate warm surface and contrast behind dark product imagery.
 - **Slate Reading** ({colors.secondary-text}): Supporting text and explanatory copy.
 - **Soft Rule** ({colors.rule}): Section boundaries and screenshot frames.
-- **Quiet Blue Surface** ({colors.quiet-surface}): Secondary grouping and subtle control states.
-- **Keyboard Focus Violet** ({colors.focus}): Strong focus outline, distinct from the route blue.
+- **Quiet Teal Surface** ({colors.quiet-surface}): Secondary grouping and subtle control states.
+- **Keyboard Focus Teal** ({colors.focus}): Strong focus outline, distinct from the route blue.
 
 **The Route-Blue Rule.** Audit Blue marks navigation and action; it never communicates a conformity result by itself.
 
@@ -128,7 +134,7 @@ Deep navy anchors the product; a clear working blue marks actions and journey no
 
 ## Layout
 
-Content uses a centered `82rem` maximum width and fluid side gutters (`min(100% - 3rem, 82rem)`). The first viewport establishes the product proposition and release action with an authentic application capture in view. The audit route follows as a scroll-synchronized story: its sticky screenshot changes with the active explanation, while route links jump directly to each stage. Technical views, audiences, and release actions are separated by large vertical pauses and thin rules rather than a repeating card grid.
+Content uses a centered `82rem` maximum width and fluid side gutters (`min(100% - 3rem, 82rem)`). The first viewport establishes the product proposition and release action with an authentic application capture in view. The audit route follows as a scroll-synchronized story: its sticky screenshot changes with the active explanation, while route links jump directly to each stage. Technical views, audiences, and release actions are separated by large vertical pauses and thin rules rather than a repeating card grid. The atomic-system palette uses navy `#171F3B`, action blue `#214B9A`, teal `#087970` / `#33B5AB`, canvas `#F4F2E9`, paper `#FFFDF7`, and brand cream `#FAF7EB`.
 
 At widths up to `1100px`, evidence layouts stack and audience rows simplify. At `720px`, navigation becomes a native disclosure, the route becomes vertical, and feature sections stack. At `390px`, headings and metadata tighten without horizontal overflow. The page was exercised at widths from 390px to 1600px.
 
