@@ -22,31 +22,36 @@ typography:
     fontWeight: 600
     letterSpacing: "0em"
   display:
-    fontFamily: "Atkinson Hyperlegible Next, Segoe UI, sans-serif"
+    fontFamily: "Inter, Segoe UI, system-ui, sans-serif"
     fontSize: "clamp(3.25rem, 5.1vw, 5rem)"
     fontWeight: 760
     lineHeight: 0.99
     letterSpacing: "-0.048em"
   headline:
-    fontFamily: "Atkinson Hyperlegible Next, Segoe UI, sans-serif"
+    fontFamily: "Inter, Segoe UI, system-ui, sans-serif"
     fontSize: "clamp(2.5rem, 4.5vw, 4.4rem)"
     fontWeight: 730
     lineHeight: 1.04
     letterSpacing: "-0.045em"
   title:
-    fontFamily: "Atkinson Hyperlegible Next, Segoe UI, sans-serif"
+    fontFamily: "Inter, Segoe UI, system-ui, sans-serif"
     fontSize: "clamp(1.2rem, 2vw, 1.55rem)"
     fontWeight: 710
     lineHeight: 1.2
   body:
-    fontFamily: "Atkinson Hyperlegible Next, Segoe UI, sans-serif"
+    fontFamily: "Inter, Segoe UI, system-ui, sans-serif"
     fontSize: "1.0625rem"
     fontWeight: 400
     lineHeight: 1.58
   label:
-    fontFamily: "Atkinson Hyperlegible Next, Segoe UI, sans-serif"
+    fontFamily: "Inter, Segoe UI, system-ui, sans-serif"
     fontSize: "0.94rem"
     fontWeight: 720
+  mono:
+    fontFamily: "JetBrains Mono, ui-monospace, monospace"
+    fontSize: "0.82rem"
+    fontWeight: 500
+    letterSpacing: "0em"
 rounded:
   control: "0.45rem"
   image: "0.65rem"
@@ -117,13 +122,13 @@ Deep navy anchors the product; a clear working blue marks actions, and the teal 
 
 **Brand Wordmark:** Inter (with Segoe UI fallback), matching the desktop application name.
 
-**Display Font:** Atkinson Hyperlegible Next (with Segoe UI, sans-serif fallback)
+**Display Font:** Inter (with Segoe UI and system-ui fallbacks)
 
-**Body Font:** Atkinson Hyperlegible Next
+**Body Font:** Inter
 
-**Label/Mono Font:** No mono face; product labels remain in the same accessible sans family.
+**Technical / numeric Font:** JetBrains Mono, reserved for tabular journey indices and future code or technical values; ordinary labels and prose remain in Inter.
 
-**Character:** Open, easy-to-distinguish letterforms support an accessibility-focused product. Large headings use weight and scale, not decorative effects.
+**Character:** Inter carries the reading hierarchy. JetBrains Mono adds a restrained technical voice where fixed-width characters improve scanning; large headings use weight and scale, not decorative effects.
 
 ### Hierarchy
 - **Display** (760, `clamp(3.25rem, 5.1vw, 5rem)`, `0.99` line-height): Homepage proposition, at most two lines.

@@ -1,9 +1,10 @@
-@import '@fontsource-variable/atkinson-hyperlegible-next';
 @import '@fontsource-variable/inter';
+@import '@fontsource-variable/jetbrains-mono';
 @import 'tailwindcss';
 
 @theme {
-  --font-sans: 'Atkinson Hyperlegible Next', 'Segoe UI', sans-serif;
+  --font-sans: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
   --color-ink: #171f3b;
   --color-action: #214b9a;
   --color-action-strong: #193c7e;
@@ -423,6 +424,7 @@ img {
 
 .route-step-number {
   color: var(--muted);
+  font-family: var(--font-mono);
   font-size: 0.82rem;
   font-variant-numeric: tabular-nums;
   font-weight: 700;
