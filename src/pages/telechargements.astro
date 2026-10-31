@@ -1,0 +1,762 @@
+---
+import { ArrowDownToLine, ArrowRight, Check, Copy, ExternalLink } from '@lucide/astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
+
+const githubRepo = 'https://github.com/numera11y/rgaa-studio';
+const releasesUrl = `${githubRepo}/releases`;
+const apiUrl = `${githubRepo.replace('https://github.com/', 'https://api.github.com/repos/')}/releases?per_page=100`;
+
+type GitHubAsset = {
+  name: string;
+  browser_download_url: string;
+  size: number;
+  digest: string | null;
+};
+
+type GitHubRelease = {
+  id: number;
+  tag_name: string;
+  name: string | null;
+  html_url: string;
+  body: string | null;
+  draft: boolean;
+  prerelease: boolean;
+  published_at: string | null;
+  assets: GitHubAsset[];
+};
+
+type DownloadAsset = GitHubAsset & { platform: 'windows' | 'linux' | 'macos'; label: string };
+type ReleaseView = GitHubRelease & { idSlug: string; formattedDate: string; macNote: string; downloads: DownloadAsset[] };
+
+const platformOrder = ['windows', 'linux', 'macos'] as const;
+const platformLabels = {
+  windows: 'Windows',
+  linux: 'Linux · Debian / Ubuntu',
+  macos: 'macOS · expérimental',
+} as const;
+const supportedPackage = /\.(exe|msi|zip|deb|rpm|appimage|dmg|pkg|tar\.gz|tar\.xz)$/i;
+
+function getPlatform(asset: GitHubAsset): DownloadAsset['platform'] | null {
+  const name = asset.name.toLowerCase();
+  if (!supportedPackage.test(name)) return null;
+  if (/win|windows/.test(name)) return 'windows';
+  if (/osx|macos|mac-|darwin/.test(name)) return 'macos';
+  if (/linux|ubuntu|debian|\.deb$|\.rpm$|\.appimage$/.test(name)) return 'linux';
+  return null;
+}
+
+function assetLabel(name: string, platform: DownloadAsset['platform']): string {
+  const extension = name.match(/\.(exe|msi|zip|deb|rpm|appimage|dmg|pkg|tar\.gz|tar\.xz)$/i)?.[0] ?? '';
+  if (/portable/i.test(name)) return `Archive portable (${extension})`;
+  if (platform === 'windows' && /\.exe$/i.test(name)) return 'Installateur Windows (.exe)';
+  if (platform === 'windows' && /\.msi$/i.test(name)) return 'Installateur Windows (.msi)';
+  if (platform === 'linux' && /\.deb$/i.test(name)) return 'Paquet Debian / Ubuntu (.deb)';
+  if (platform === 'linux' && /\.rpm$/i.test(name)) return 'Paquet Linux (.rpm)';
+  if (platform === 'macos' && /\.pkg$/i.test(name)) return 'Installateur macOS (.pkg)';
+  if (platform === 'macos' && /\.dmg$/i.test(name)) return 'Image disque macOS (.dmg)';
+  return `Paquet ${extension}`;
+}
+
+function formatSize(bytes: number): string {
+  const megabytes = bytes / (1024 * 1024);
+  return `${megabytes.toLocaleString('fr-FR', { maximumFractionDigits: 1 })} Mo`;
+}
+
+let releaseError = false;
+let rawReleases: GitHubRelease[] = [];
+
+try {
+  let page = 1;
+  while (true) {
+    const response = await fetch(`${apiUrl}&page=${page}`, {
+      headers: {
+        Accept: 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28',
+        'User-Agent': 'rgaa-studio-site',
+      },
+      signal: AbortSignal.timeout(10000),
+    });
+    if (!response.ok) throw new Error(`GitHub Releases API: ${response.status}`);
+    const pageReleases = (await response.json() as GitHubRelease[]).filter((release) => !release.draft);
+    rawReleases.push(...pageReleases);
+    if (pageReleases.length < 100) break;
+    page += 1;
+  }
+} catch {
+  releaseError = true;
+}
+
+const releases: ReleaseView[] = rawReleases
+  .sort((a, b) => Date.parse(b.published_at ?? '') - Date.parse(a.published_at ?? ''))
+  .map((release) => {
+    const downloads = release.assets.flatMap((asset) => {
+      const platform = getPlatform(asset);
+      return platform ? [{ ...asset, platform, label: assetLabel(asset.name, platform) }] : [];
+    });
+    const macNote = release.body?.split(/\r?\n/).find((line) => /macos|os x/i.test(line) && /non sign|expériment|test/i.test(line))?.replace(/^\s*[-*]\s*/, '').trim() ?? '';
+    return {
+      ...release,
+      idSlug: release.tag_name.toLowerCase().replace(/[^a-z0-9-]+/g, '-'),
+      formattedDate: release.published_at
+        ? new Intl.DateTimeFormat('fr-FR', { dateStyle: 'long', timeZone: 'Europe/Paris' }).format(new Date(release.published_at))
+        : 'Date non précisée',
+      macNote,
+      downloads,
+    };
+  })
+  .filter((release) => release.downloads.length > 0);
+
+---
+
+<SiteLayout
+  title="Téléchargements RGAA Studio — versions et SHA-256"
+  description="Téléchargez les versions publiées de RGAA Studio et vérifiez les empreintes SHA-256 de chaque paquet."
+>
+  <section class="download-hero page-width" aria-labelledby="download-title">
+    <p class="download-kicker">VERSIONS PUBLIÉES</p>
+    <h1 id="download-title">Choisir une version.<br /><span>Vérifier son empreinte.</span></h1>
+    <p class="download-intro">
+      Installateurs et paquets portables, avec leur SHA-256 publié par GitHub. Téléchargez le fichier,
+      puis comparez son empreinte à la valeur affichée ici.
+    </p>
+    <div class="download-source-note">
+      <Check size={17} stroke-width={1.8} aria-hidden="true" />
+      <span>Les sommes SHA-256 proviennent de la métadonnée de chaque fichier dans GitHub Releases.</span>
+    </div>
+  </section>
+
+  <section class="downloads-section section-space" aria-label="Versions et fichiers téléchargeables">
+    <div class="page-width">
+      {releaseError ? (
+        <div class="download-fallback" role="status">
+          <h2>La liste des versions est momentanément indisponible.</h2>
+          <p>Vous pouvez consulter les fichiers publiés directement sur GitHub.</p>
+          <a class="button button-primary" href={releasesUrl} target="_blank" rel="noreferrer">
+            Ouvrir les versions GitHub <ExternalLink size={16} aria-hidden="true" />
+          </a>
+        </div>
+      ) : releases.length === 0 ? (
+        <div class="download-fallback" role="status">
+          <h2>Aucun paquet installable n’est disponible pour le moment.</h2>
+          <p>Les versions publiées et leurs fichiers restent consultables sur GitHub.</p>
+          <a class="button button-primary" href={releasesUrl} target="_blank" rel="noreferrer">
+            Ouvrir les versions GitHub <ExternalLink size={16} aria-hidden="true" />
+          </a>
+        </div>
+      ) : (
+        <div class="download-register">
+          <aside class="release-index" aria-label="Index des versions">
+            <div class="release-index-heading">
+              <h2>Versions</h2>
+              <span>{releases.length}</span>
+            </div>
+            <nav>
+              {releases.map((release, index) => (
+                <a class:list={{ 'release-index-link': true, 'is-latest': index === 0 }} href={`#release-${release.idSlug}`}>
+                  <span class="release-index-number">{String(index + 1).padStart(2, '0')}</span>
+                  <span><strong>{release.tag_name}</strong><small>{release.formattedDate}</small></span>
+                </a>
+              ))}
+              <a class="all-releases-link" href={releasesUrl} target="_blank" rel="noreferrer">
+                Toutes les publications GitHub <ExternalLink size={15} aria-hidden="true" />
+              </a>
+            </nav>
+          </aside>
+
+          <div class="release-manifests">
+            {releases.map((release, releaseIndex) => (
+              <details class="release-manifest" id={`release-${release.idSlug}`} open={releaseIndex === 0}>
+                <summary>
+                  <span class="release-title-group">
+                    <span class="release-tag">{release.tag_name}</span>
+                    {releaseIndex === 0 && <span class="latest-tag">Dernière version</span>}
+                    {release.prerelease && <span class="prerelease-tag">Préversion</span>}
+                    <span class="release-date">Publiée le {release.formattedDate}</span>
+                  </span>
+                  <span class="release-summary-action">{release.downloads.length} fichiers</span>
+                </summary>
+
+                <div class="release-content">
+                  <div class="release-meta-line">
+                    <h3>{release.name || `RGAA Studio ${release.tag_name}`}</h3>
+                    <a href={release.html_url} target="_blank" rel="noreferrer">
+                      Notes de version <ExternalLink size={14} aria-hidden="true" />
+                    </a>
+                  </div>
+
+                  {platformOrder.map((platform) => {
+                    const assets = release.downloads.filter((asset) => asset.platform === platform);
+                    if (assets.length === 0) return null;
+                    return (
+                      <section class="platform-group" aria-labelledby={`${release.idSlug}-${platform}`}>
+                        <div class="platform-heading">
+                          <h4 id={`${release.idSlug}-${platform}`}>{platformLabels[platform]}</h4>
+                          {platform === 'macos' && release.macNote && <p class="platform-warning">{release.macNote}</p>}
+                          {platform === 'macos' && !release.macNote && releaseIndex === 0 && (
+                            <p class="platform-warning">Ces paquets ne font pas partie des environnements de production pris en charge.</p>
+                          )}
+                        </div>
+                        <ul class="asset-list">
+                          {assets.map((asset) => {
+                            const digest = asset.digest?.match(/^sha256:([a-f0-9]{64})$/i)?.[1] ?? null;
+                            return (
+                              <li class="asset-row">
+                                <div class="asset-information">
+                                  <strong>{asset.label}</strong>
+                                  <span class="asset-filename">{asset.name}</span>
+                                  <span class="asset-size">{formatSize(asset.size)}</span>
+                                </div>
+                                <div class="asset-checksum">
+                                  <span class="checksum-label">SHA-256</span>
+                                  {digest ? (
+                                    <code>{digest}</code>
+                                  ) : (
+                                    <span class="checksum-unavailable">Empreinte non fournie pour ce fichier.</span>
+                                  )}
+                                </div>
+                                <div class="asset-actions">
+                                  {digest && (
+                                    <button class="copy-hash-button" type="button" data-copy-hash={digest} data-asset-name={asset.name}>
+                                      <Copy size={15} aria-hidden="true" /><span>Copier</span>
+                                    </button>
+                                  )}
+                                  <a class="button button-primary download-button" href={asset.browser_download_url}>
+                                    <ArrowDownToLine size={16} aria-hidden="true" /><span>Télécharger</span>
+                                  </a>
+                                </div>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </section>
+                    );
+                  })}
+                </div>
+              </details>
+            ))}
+            <p class="copy-status" data-copy-status role="status" aria-live="polite"></p>
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="download-help section-space" aria-labelledby="download-help-title">
+    <div class="page-width download-help-inner">
+      <div>
+        <p class="download-kicker">VÉRIFICATION</p>
+        <h2 id="download-help-title">Comparer le fichier téléchargé à son empreinte.</h2>
+      </div>
+      <p>
+        Chaque SHA-256 est associé au fichier exact publié sur GitHub. Après téléchargement,
+        calculez l’empreinte locale du fichier et comparez les 64 caractères. Les noms de fichiers
+        ou les sommes d’autres plateformes ne remplacent pas cette comparaison.
+      </p>
+    </div>
+  </section>
+
+  <div class="download-return page-width">
+    <a class="text-link" href={`${import.meta.env.BASE_URL}`}><ArrowRight size={16} aria-hidden="true" /> Retour à la présentation</a>
+  </div>
+</SiteLayout>
+
+<script>
+  const copyStatus = document.querySelector<HTMLElement>('[data-copy-status]');
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-hash]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const digest = button.dataset.copyHash;
+      const assetName = button.dataset.assetName ?? 'fichier';
+      if (!digest || !copyStatus) return;
+      try {
+        await navigator.clipboard.writeText(digest);
+        copyStatus.textContent = `SHA-256 copié pour ${assetName}.`;
+      } catch {
+        copyStatus.textContent = `Copie impossible. Sélectionnez l’empreinte affichée pour ${assetName}.`;
+      }
+    });
+  });
+
+  document.querySelectorAll<HTMLAnchorElement>('.release-index-link').forEach((link) => {
+    link.addEventListener('click', () => {
+      const target = document.querySelector<HTMLDetailsElement>(link.hash);
+      if (target) target.open = true;
+    });
+  });
+</script>
+
+<style>
+  .download-hero {
+    padding-block: clamp(3.5rem, 7vw, 6rem) 3.25rem;
+  }
+
+  .download-kicker {
+    margin: 0 0 0.8rem;
+    color: var(--teal);
+    font-size: 0.82rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+  }
+
+  .download-hero h1 {
+    max-width: 15ch;
+    margin: 0;
+    color: var(--ink);
+    font-size: clamp(2.8rem, 5vw, 4.6rem);
+    font-weight: 750;
+    letter-spacing: -0.045em;
+    line-height: 1.03;
+  }
+
+  .download-hero h1 span {
+    color: var(--action);
+  }
+
+  .download-intro {
+    max-width: 67ch;
+    margin: 1.2rem 0 0;
+    color: var(--muted);
+    font-size: 1.08rem;
+  }
+
+  .download-source-note {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-top: 1.35rem;
+    color: var(--teal);
+    font-size: 0.94rem;
+  }
+
+  .downloads-section {
+    padding-top: 2rem;
+    background: var(--cream);
+  }
+
+  .download-register {
+    display: grid;
+    grid-template-columns: minmax(14rem, 0.32fr) minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+  }
+
+  .release-index {
+    position: sticky;
+    top: 1.2rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .release-index-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .release-index-heading h2 {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 720;
+  }
+
+  .release-index-heading > span,
+  .release-index-number,
+  .release-date {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .release-index-link {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    gap: 0.7rem;
+    padding: 1rem 0.65rem;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .release-index-link:hover,
+  .release-index-link.is-latest {
+    background: var(--quiet);
+  }
+
+  .release-index-link.is-latest .release-index-number,
+  .release-index-link.is-latest strong {
+    color: var(--teal);
+  }
+
+  .release-index-link strong,
+  .release-index-link small {
+    display: block;
+  }
+
+  .release-index-link small {
+    margin-top: 0.25rem;
+    color: var(--muted);
+    font-size: 0.82rem;
+  }
+
+  .all-releases-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.9rem;
+    color: var(--action);
+    font-size: 0.88rem;
+    font-weight: 650;
+  }
+
+  .release-manifest {
+    scroll-margin-top: 1rem;
+    margin-bottom: 0.9rem;
+    border: 1px solid var(--rule);
+    border-radius: 0.75rem;
+    background: var(--paper);
+  }
+
+  .release-manifest > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.2rem;
+    padding: 1.2rem 1.4rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .release-manifest > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .release-title-group {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.45rem 0.8rem;
+  }
+
+  .release-tag {
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 1.35rem;
+    font-weight: 650;
+  }
+
+  .latest-tag,
+  .prerelease-tag {
+    padding: 0.2rem 0.45rem;
+    border-radius: 0.3rem;
+    background: var(--quiet);
+    color: var(--teal);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .prerelease-tag {
+    background: var(--cream);
+    color: var(--muted);
+  }
+
+  .release-summary-action {
+    flex: 0 0 auto;
+    color: var(--action);
+    font-size: 0.86rem;
+    font-weight: 650;
+  }
+
+  .release-content {
+    padding: 0 1.4rem 1.4rem;
+  }
+
+  .release-meta-line {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 0 1.1rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .release-meta-line h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 710;
+  }
+
+  .release-meta-line a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    flex: 0 0 auto;
+    color: var(--action);
+    font-size: 0.82rem;
+  }
+
+  .platform-group + .platform-group {
+    margin-top: 1.2rem;
+  }
+
+  .platform-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.4rem 1rem;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .platform-heading h4 {
+    margin: 0;
+    color: var(--ink);
+    font-size: 0.94rem;
+    font-weight: 720;
+  }
+
+  .platform-warning {
+    margin: 0;
+    color: var(--warning);
+    background: var(--warning-surface);
+    border-radius: 0.3rem;
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .asset-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .asset-row {
+    display: grid;
+    grid-template-columns: minmax(11rem, 0.75fr) minmax(0, 1.45fr) auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .asset-information > * {
+    display: block;
+  }
+
+  .asset-information strong {
+    font-size: 0.87rem;
+    font-weight: 700;
+  }
+
+  .asset-filename {
+    margin-top: 0.25rem;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    overflow-wrap: anywhere;
+  }
+
+  .asset-size {
+    margin-top: 0.25rem;
+    color: var(--muted);
+    font-size: 0.74rem;
+  }
+
+  .asset-checksum {
+    min-width: 0;
+  }
+
+  .checksum-label {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--muted);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  .asset-checksum code {
+    display: block;
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    user-select: all;
+  }
+
+  .checksum-unavailable {
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+
+  .asset-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .copy-hash-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    min-height: 2.7rem;
+    padding: 0.5rem 0.65rem;
+    border: 1px solid var(--rule);
+    border-radius: 0.45rem;
+    color: var(--ink);
+    background: var(--paper);
+    cursor: pointer;
+    font-size: 0.78rem;
+    font-weight: 650;
+  }
+
+  .copy-hash-button:hover {
+    background: var(--quiet);
+  }
+
+  .download-button {
+    min-height: 2.7rem;
+    padding: 0.55rem 0.75rem;
+    font-size: 0.78rem;
+  }
+
+  .copy-status {
+    min-height: 1.5em;
+    margin: 0.6rem 0 0;
+    color: var(--teal);
+    font-size: 0.85rem;
+  }
+
+  .download-fallback {
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border: 1px solid var(--rule);
+    border-radius: 0.75rem;
+    background: var(--paper);
+  }
+
+  .download-fallback h2 {
+    margin: 0;
+    font-size: 1.4rem;
+  }
+
+  .download-fallback p {
+    margin: 0.6rem 0 1.2rem;
+    color: var(--muted);
+  }
+
+  .download-help {
+    background: var(--paper);
+  }
+
+  .download-help-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    align-items: start;
+    gap: clamp(2rem, 6vw, 5rem);
+  }
+
+  .download-help h2 {
+    max-width: 18ch;
+    margin: 0;
+    font-size: clamp(1.7rem, 2.6vw, 2.5rem);
+    line-height: 1.15;
+  }
+
+  .download-help-inner > p {
+    max-width: 68ch;
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .download-return {
+    padding-block: 1.5rem 3rem;
+  }
+
+  .download-return .text-link {
+    flex-direction: row-reverse;
+  }
+
+  @media (max-width: 900px) {
+    .download-register {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .release-index {
+      position: static;
+    }
+
+    .release-index nav {
+      display: flex;
+      gap: 0.4rem;
+      overflow-x: auto;
+    }
+
+    .release-index-link {
+      min-width: 10rem;
+      border: 1px solid var(--rule);
+    }
+
+    .asset-row {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .asset-checksum {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+
+    .asset-actions {
+      grid-column: 2;
+      grid-row: 1;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .download-hero {
+      padding-block: 3rem 2rem;
+    }
+
+    .release-manifest > summary,
+    .release-content {
+      padding-right: 0.9rem;
+      padding-left: 0.9rem;
+    }
+
+    .release-manifest > summary {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.4rem;
+      padding-block: 0.9rem;
+    }
+
+    .release-meta-line {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .asset-row {
+      gap: 0.75rem;
+    }
+
+    .asset-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .copy-hash-button,
+    .download-button {
+      width: 100%;
+    }
+
+    .download-help-inner {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.2rem;
+    }
+  }
+</style>

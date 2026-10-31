@@ -18,6 +18,8 @@
   --color-rule: #d8dad9;
   --color-quiet: #e7f2ef;
   --color-focus: #087970;
+  --color-warning: #81530f;
+  --color-warning-surface: #fff3d8;
 }
 
 :root {
@@ -41,6 +43,8 @@
   --teal-bright: #33b5ab;
   --focus: #087970;
   --slate-light: #c1cadb;
+  --warning: #81530f;
+  --warning-surface: #fff3d8;
   --space-section: clamp(5.5rem, 10vw, 9rem);
 }
 

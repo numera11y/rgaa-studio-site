@@ -14,7 +14,7 @@ import SiteLayout from '../layouts/SiteLayout.astro';
 const base = import.meta.env.BASE_URL;
 const basePath = base.endsWith('/') ? base : `${base}/`;
 const githubRepo = 'https://github.com/numera11y/rgaa-studio';
-const releaseUrl = `${githubRepo}/releases/latest`;
+const downloadsUrl = `${basePath}telechargements/`;
 ---
 
 <SiteLayout>
@@ -26,7 +26,7 @@ const releaseUrl = `${githubRepo}/releases/latest`;
         Les pistes automatiques aident l’auditeur&nbsp;: elles ne décident pas à sa place.
       </p>
       <div class="hero-actions">
-        <a class="button button-primary" href={releaseUrl} target="_blank" rel="noreferrer">
+        <a class="button button-primary" href={downloadsUrl}>
           Découvrir l’application <ArrowRight size={18} stroke-width={1.8} aria-hidden="true" />
         </a>
         <a class="button button-quiet" href={`${basePath}#parcours`}>
@@ -166,7 +166,7 @@ const releaseUrl = `${githubRepo}/releases/latest`;
         <h2 id="release-title">Ouvrir le dossier.<br /><span>Commencer la revue.</span></h2>
         <p>Découvrez RGAA Studio et choisissez une version publiée pour votre environnement.</p>
         <div class="release-actions">
-          <a class="button button-light" href={releaseUrl} target="_blank" rel="noreferrer">
+          <a class="button button-light" href={downloadsUrl}>
             Voir les versions publiées <Download size={17} stroke-width={1.8} aria-hidden="true" />
           </a>
           <a class="release-repo-link" href={githubRepo} target="_blank" rel="noreferrer">

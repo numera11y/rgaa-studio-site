@@ -19,7 +19,7 @@ npm run preview
 
 ## Publication
 
-Le workflow GitHub Actions publie automatiquement `main` sur GitHub Pages à l’adresse `https://numera11y.github.io/rgaa-studio-site/`. Il construit Astro avec la base du dépôt déjà configurée. Aucun domaine personnalisé n’est réglé pour l’instant.
+Le workflow GitHub Actions publie automatiquement `main` sur GitHub Pages à l’adresse `https://numera11y.github.io/rgaa-studio-site/`. Il construit Astro avec la base du dépôt déjà configurée et resynchronise le catalogue des versions toutes les six heures depuis les métadonnées publiques de GitHub Releases. Aucun domaine personnalisé n’est réglé pour l’instant.
 
 ## Médias
 

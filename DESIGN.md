@@ -14,6 +14,8 @@ colors:
   rule: "#d8dad9"
   quiet-surface: "#e7f2ef"
   focus: "#087970"
+  warning: "#81530f"
+  warning-surface: "#fff3d8"
   white: "#ffffff"
 typography:
   brand:
@@ -115,6 +117,7 @@ Deep navy anchors the product; a clear working blue marks actions, and the teal 
 - **Soft Rule** ({colors.rule}): Section boundaries and screenshot frames.
 - **Quiet Teal Surface** ({colors.quiet-surface}): Secondary grouping and subtle control states.
 - **Keyboard Focus Teal** ({colors.focus}): Strong focus outline, distinct from the route blue.
+- **Warning Ink / Surface** ({colors.warning} / {colors.warning-surface}): Product caveats such as experimental or unsigned packages; never a conformity status.
 
 **The Route-Blue Rule.** Audit Blue marks navigation and action; it never communicates a conformity result by itself.
 
