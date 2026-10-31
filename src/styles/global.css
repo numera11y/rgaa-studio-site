@@ -3,8 +3,8 @@
 @import 'tailwindcss';
 
 @theme {
-  --font-sans: 'Inter', 'Segoe UI', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-sans: 'Inter Variable', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
   --color-ink: #171f3b;
   --color-action: #214b9a;
   --color-action-strong: #193c7e;
@@ -149,7 +149,7 @@ img {
   align-items: center;
   gap: 0.75rem;
   color: var(--ink);
-  font-family: 'Inter', 'Segoe UI', sans-serif;
+  font-family: var(--font-sans);
   font-size: 1.375rem;
   font-weight: 600;
   letter-spacing: 0;

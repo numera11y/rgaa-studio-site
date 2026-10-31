@@ -17,38 +17,38 @@ colors:
   white: "#ffffff"
 typography:
   brand:
-    fontFamily: "Inter, Segoe UI, sans-serif"
+    fontFamily: "Inter Variable, Segoe UI, system-ui, sans-serif"
     fontSize: "1.375rem"
     fontWeight: 600
     letterSpacing: "0em"
   display:
-    fontFamily: "Inter, Segoe UI, system-ui, sans-serif"
+    fontFamily: "Inter Variable, Segoe UI, system-ui, sans-serif"
     fontSize: "clamp(3.25rem, 5.1vw, 5rem)"
     fontWeight: 760
     lineHeight: 0.99
     letterSpacing: "-0.048em"
   headline:
-    fontFamily: "Inter, Segoe UI, system-ui, sans-serif"
+    fontFamily: "Inter Variable, Segoe UI, system-ui, sans-serif"
     fontSize: "clamp(2.5rem, 4.5vw, 4.4rem)"
     fontWeight: 730
     lineHeight: 1.04
     letterSpacing: "-0.045em"
   title:
-    fontFamily: "Inter, Segoe UI, system-ui, sans-serif"
+    fontFamily: "Inter Variable, Segoe UI, system-ui, sans-serif"
     fontSize: "clamp(1.2rem, 2vw, 1.55rem)"
     fontWeight: 710
     lineHeight: 1.2
   body:
-    fontFamily: "Inter, Segoe UI, system-ui, sans-serif"
+    fontFamily: "Inter Variable, Segoe UI, system-ui, sans-serif"
     fontSize: "1.0625rem"
     fontWeight: 400
     lineHeight: 1.58
   label:
-    fontFamily: "Inter, Segoe UI, system-ui, sans-serif"
+    fontFamily: "Inter Variable, Segoe UI, system-ui, sans-serif"
     fontSize: "0.94rem"
     fontWeight: 720
   mono:
-    fontFamily: "JetBrains Mono, ui-monospace, monospace"
+    fontFamily: "JetBrains Mono Variable, ui-monospace, monospace"
     fontSize: "0.82rem"
     fontWeight: 500
     letterSpacing: "0em"
@@ -120,15 +120,15 @@ Deep navy anchors the product; a clear working blue marks actions, and the teal 
 
 ## Typography
 
-**Brand Wordmark:** Inter (with Segoe UI fallback), matching the desktop application name.
+**Brand Wordmark:** Inter Variable (with Segoe UI fallback), matching the desktop application name.
 
-**Display Font:** Inter (with Segoe UI and system-ui fallbacks)
+**Display Font:** Inter Variable (with Segoe UI and system-ui fallbacks)
 
-**Body Font:** Inter
+**Body Font:** Inter Variable
 
-**Technical / numeric Font:** JetBrains Mono, reserved for tabular journey indices and future code or technical values; ordinary labels and prose remain in Inter.
+**Technical / numeric Font:** JetBrains Mono Variable, reserved for tabular journey indices and future code or technical values; ordinary labels and prose remain in Inter Variable.
 
-**Character:** Inter carries the reading hierarchy. JetBrains Mono adds a restrained technical voice where fixed-width characters improve scanning; large headings use weight and scale, not decorative effects.
+**Character:** Inter Variable carries the reading hierarchy. JetBrains Mono Variable adds a restrained technical voice where fixed-width characters improve scanning; large headings use weight and scale, not decorative effects.
 
 ### Hierarchy
 - **Display** (760, `clamp(3.25rem, 5.1vw, 5rem)`, `0.99` line-height): Homepage proposition, at most two lines.
@@ -154,7 +154,7 @@ Buttons use restrained rounded corners (`0.45rem`), image frames use a slightly 
 ## Components
 
 ### Navigation
-- Product icon plus an Inter “RGAA Studio” wordmark matching the application’s About and splash views; primary links describe destinations.
+- Product icon plus an Inter Variable “RGAA Studio” wordmark matching the application’s About and splash views; primary links describe destinations.
 - Desktop navigation remains inline; mobile navigation uses native `<details>` disclosure semantics.
 - The mobile disclosure closes on Escape, outside click, or link activation, with focus returned to the summary on Escape.
 
