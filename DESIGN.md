@@ -14,6 +14,11 @@ colors:
   route-line: "#adc0df"
   white: "#ffffff"
 typography:
+  brand:
+    fontFamily: "Inter, Segoe UI, sans-serif"
+    fontSize: "1.375rem"
+    fontWeight: 600
+    letterSpacing: "0em"
   display:
     fontFamily: "Atkinson Hyperlegible Next, Segoe UI, sans-serif"
     fontSize: "clamp(3.25rem, 5.1vw, 5rem)"
@@ -105,6 +110,8 @@ Deep navy anchors the product; a clear working blue marks actions and journey no
 
 ## Typography
 
+**Brand Wordmark:** Inter (with Segoe UI fallback), matching the desktop application name.
+
 **Display Font:** Atkinson Hyperlegible Next (with Segoe UI, sans-serif fallback)
 
 **Body Font:** Atkinson Hyperlegible Next
@@ -122,7 +129,7 @@ Deep navy anchors the product; a clear working blue marks actions and journey no
 
 ## Layout
 
-Content uses a centered `82rem` maximum width and fluid side gutters (`min(100% - 3rem, 82rem)`). The first viewport establishes the product proposition and release action with the top of an authentic application capture. The audit route follows immediately below, then expands into native disclosures; technical views, audiences, and release actions are separated by large vertical pauses and thin rules rather than a repeating card grid.
+Content uses a centered `82rem` maximum width and fluid side gutters (`min(100% - 3rem, 82rem)`). The first viewport establishes the product proposition and release action with an authentic application capture in view. The audit route follows as a scroll-synchronized story: its sticky screenshot changes with the active explanation, while route links jump directly to each stage. Technical views, audiences, and release actions are separated by large vertical pauses and thin rules rather than a repeating card grid.
 
 At widths up to `1100px`, evidence layouts stack and audience rows simplify. At `720px`, navigation becomes a native disclosure, the route becomes vertical, and feature sections stack. At `390px`, headings and metadata tighten without horizontal overflow. The page was exercised at widths from 390px to 1600px.
 
@@ -137,7 +144,7 @@ Buttons use restrained rounded corners (`0.45rem`), image frames use a slightly 
 ## Components
 
 ### Navigation
-- Product icon plus “RGAA Studio” wordmark; primary links describe destinations.
+- Product icon plus an Inter “RGAA Studio” wordmark matching the application’s About and splash views; primary links describe destinations.
 - Desktop navigation remains inline; mobile navigation uses native `<details>` disclosure semantics.
 - The mobile disclosure closes on Escape, outside click, or link activation, with focus returned to the summary on Escape.
 
@@ -147,10 +154,11 @@ Buttons use restrained rounded corners (`0.45rem`), image frames use a slightly 
 - **Hover / Focus:** Deeper Audit Blue and a high-contrast keyboard focus outline.
 - **Secondary:** A transparent, text-forward link with the same arrow motif and no competing solid fill.
 
-### Audit Journey Disclosure
-- Each native `<details>` step exposes one genuine screenshot, a caption, and an explanation.
-- Only one step is open at a time; the step title and destination remain visible when closed.
-- The five-step route links directly to the corresponding disclosure.
+### Scroll-Synchronized Audit Journey
+- A sticky, genuine application capture changes as the visitor scrolls through the five audit stages.
+- The route links jump directly to a stage, update the current stop, and change the screenshot caption and alternative text.
+- Stage headings and explanations remain visible and understandable even when the interaction script is unavailable.
+- The image and headline move/fade as the active stage changes; reduced-motion preference removes transitions.
 
 ### Product Screenshot
 - Uses supplied application captures, preserved at their source ratio and given descriptive alt text.

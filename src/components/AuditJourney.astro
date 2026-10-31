@@ -1,12 +1,5 @@
 ---
-import {
-  BookOpen,
-  CircleCheck,
-  Contrast,
-  FileSearch,
-  Globe,
-  ScanSearch,
-} from '@lucide/astro';
+import { ArrowRight, BookOpen, CircleCheck, Contrast, FileSearch, Globe, ScanSearch } from '@lucide/astro';
 
 const base = import.meta.env.BASE_URL;
 const basePath = base.endsWith('/') ? base : `${base}/`;
@@ -84,38 +77,104 @@ const steps = [
       })}
     </ol>
 
-    <div class="journey-details">
-      {steps.map((step, index) => {
-        const Icon = step.icon;
-        return (
-          <details class="journey-step" id={`etape-${step.id}`} name="audit-journey" open={index === 0}>
-            <summary>
-              <span class="journey-step-icon"><Icon size={21} stroke-width={1.8} aria-hidden="true" /></span>
-              <span class="journey-step-title">{step.title}</span>
-              <span class="journey-step-action">{step.action}</span>
-              <span class="journey-toggle" aria-hidden="true"></span>
-            </summary>
-            <div class="journey-panel">
-              <figure class="journey-image">
-                <img
-                  src={`${basePath}media/${step.image}`}
-                  alt={step.alt}
-                  loading={index === 0 ? 'eager' : 'lazy'}
-                  width="1600"
-                  height="860"
-                />
-                <figcaption>Capture de l’application sur le site public numera11y.fr.</figcaption>
-              </figure>
-              <div class="journey-copy">
-                <p class="journey-copy-label">{step.action}</p>
-                <h3>{step.title}</h3>
-                <p>{step.description}</p>
-                <a class="text-link" href={`${basePath}#fonctionnalites`}>Voir les repères de l’espace d’audit</a>
-              </div>
-            </div>
-          </details>
-        );
-      })}
+    <div class="journey-story" data-journey-story>
+      <figure class="journey-sticky">
+        <img
+          data-journey-image
+          src={`${basePath}media/${steps[0].image}`}
+          alt={steps[0].alt}
+          width="1600"
+          height="860"
+        />
+        <figcaption data-journey-caption>{steps[0].title} · {steps[0].action}</figcaption>
+        <p class="visually-hidden" data-journey-announcer aria-live="polite"></p>
+      </figure>
+
+      <div class="journey-narrative">
+        {steps.map((step, index) => (
+          <article
+            class="journey-copy-step"
+            id={`etape-${step.id}`}
+            data-journey-step
+            data-index={index}
+            data-title={step.title}
+            data-action={step.action}
+            data-image={`${basePath}media/${step.image}`}
+            data-alt={step.alt}
+          >
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+            {index === steps.length - 1 && (
+              <a class="text-link" href="https://github.com/numera11y/rgaa-studio/releases/latest" target="_blank" rel="noreferrer">
+                Découvrir l’application <ArrowRight size={16} aria-hidden="true" />
+              </a>
+            )}
+          </article>
+        ))}
+      </div>
     </div>
   </div>
 </section>
+
+<script>
+  const story = document.querySelector<HTMLElement>('[data-journey-story]');
+  const image = story?.querySelector<HTMLImageElement>('[data-journey-image]');
+  const caption = story?.querySelector<HTMLElement>('[data-journey-caption]');
+  const announcer = story?.querySelector<HTMLElement>('[data-journey-announcer]');
+  const steps = [...(story?.querySelectorAll<HTMLElement>('[data-journey-step]') ?? [])];
+  const routeLinks = [...(document.querySelectorAll<HTMLAnchorElement>('.journey-route a[href^="#etape-"]'))];
+  let activeId: string | undefined;
+  let swapToken = 0;
+
+  function activateStep(step: HTMLElement, announce = false) {
+    if (!image || !caption || activeId === step.id) return;
+    activeId = step.id;
+    steps.forEach((item) => item.classList.toggle('is-active', item === step));
+    routeLinks.forEach((link) => {
+      if (link.hash === `#${step.id}`) link.setAttribute('aria-current', 'step');
+      else link.removeAttribute('aria-current');
+    });
+    const imagePath = step.dataset.image ?? image.src;
+    const nextImage = new Image();
+    const currentSwap = ++swapToken;
+    image.classList.add('is-changing');
+    const finishSwap = () => {
+      if (currentSwap !== swapToken) return;
+      image.src = imagePath;
+      image.alt = step.dataset.alt ?? '';
+      caption.textContent = `${step.dataset.title} · ${step.dataset.action}`;
+      image.classList.remove('is-changing', 'is-swapping');
+      void image.offsetWidth;
+      image.classList.add('is-swapping');
+      window.setTimeout(() => image.classList.remove('is-swapping'), 450);
+    };
+    nextImage.onload = finishSwap;
+    nextImage.onerror = () => {
+      if (currentSwap === swapToken) image.classList.remove('is-changing');
+    };
+    nextImage.src = imagePath;
+    if (announce && announcer) announcer.textContent = `${step.dataset.title}. ${step.dataset.action}.`;
+  }
+
+  const firstStep = steps[0];
+  if (firstStep) {
+    activeId = firstStep.id;
+    firstStep.classList.add('is-active');
+    routeLinks.find((link) => link.hash === `#${firstStep.id}`)?.setAttribute('aria-current', 'step');
+  }
+
+  if (steps.length > 0 && image && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) activateStep(visible.target as HTMLElement);
+    }, { rootMargin: '-36% 0px -38% 0px', threshold: [0, 0.2, 0.45, 0.7] });
+    steps.forEach((step) => observer.observe(step));
+    routeLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        const target = steps.find((step) => `#${step.id}` === link.hash);
+        if (target) activateStep(target, true);
+      });
+    });
+  }
+</script>

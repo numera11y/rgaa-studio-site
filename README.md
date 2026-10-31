@@ -1,6 +1,6 @@
 # RGAA Studio — site de présentation
 
-Site vitrine en français pour RGAA Studio, développé avec Astro, Tailwind CSS 4 et Lucide. L’expérience présente le parcours d’audit à partir de captures réelles de l’application.
+Site vitrine en français pour RGAA Studio, développé avec Astro, Tailwind CSS 4 et Lucide. Un parcours synchronise au scroll les étapes du récit et les captures réelles de l’application ; les étapes restent également accessibles par des liens directs.
 
 ## Développement local
 

@@ -44,7 +44,7 @@ La barre de marque et de navigation ouvre sur un titre explicite et le parcours 
 
 ### FORM
 
-Le fil de l’audit, structure candidate 4 attribuée pour cette page et sélectionnée. Interaction signature : activer une station met à jour une capture annotée, sans masquer l’information ni dépendre de la couleur. Seed reference: seed:af6bcf845b51d831.
+Le fil de l’audit, structure candidate 4 attribuée pour cette page et sélectionnée. Interaction signature : l’étape active au scroll synchronise la capture sticky et son texte ; activer une station y conduit directement. Aucun contenu essentiel n’est masqué ni dépendant de la couleur. Seed reference: seed:af6bcf845b51d831.
 
 ### FINISH
 
